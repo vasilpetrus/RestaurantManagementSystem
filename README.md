@@ -25,7 +25,7 @@ These instructions will get you a copy of the project up and running on your loc
 Clone this repository to your local machine using:
 
 ```shell
-git clone https://github.com/
+git clone https://github.com/vasilpetrus/RestaurantManagementSystem
 ```
 Create a database and set values in environment variables:
 * DATABASE_URL
