@@ -41,3 +41,6 @@ The client part of the web application. Restaurant menu and order form:
 
 Login to the web service for restaurant employees:
 * Enter to the orders system [Orders](http://localhost:8080/login)
+  
+
+_Default login: admin password: admin_
