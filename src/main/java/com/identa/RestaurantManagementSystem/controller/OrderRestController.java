@@ -40,10 +40,10 @@ public class OrderRestController {
     @CrossOrigin
     public CustomerOrder createNewOrder(@RequestBody OrderForm form) {
         return customerOrderService.createNewOrder(
-                form.getItems(),
                 form.getCustomerName(),
                 form.getCustomerPhoneNumber(),
                 form.getDeliveryAddress(),
+                form.getItems(),
                 form.getObservation(),
                 form.getTotalAmount()
         );

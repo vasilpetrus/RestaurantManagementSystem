@@ -84,32 +84,6 @@
                 appendOrderToList(order);
             });
 
-<!--            orders.forEach(order => {-->
-<!--                const listItem = document.createElement('li');-->
-<!--                listItem.innerHTML = `-->
-<!--                <strong>Order ID:</strong> ${order.id}<br>-->
-<!--                <strong>Customer Name:</strong> ${order.customerName || 'None'}<br>-->
-<!--                <strong>Customer Phone Number:</strong> ${order.customerPhoneNumber || 'None'}<br>-->
-<!--                <strong>Delivery Address:</strong> ${order.deliveryAddress || 'None'}<br>-->
-<!--                <strong>Items:</strong> ${order.items.map(item => item.name).join(', ')}<br>-->
-<!--                <strong>Observation:</strong> ${order.observation || 'None'}<br>-->
-<!--                <strong id="status-${order.id}">Status: ${order.status}</strong><br>-->
-<!--                <label for="statusSelect">Change Status:</label>-->
-<!--                <select id="statusSelect">-->
-<!--                    <option value="PENDING">PENDING</option>-->
-<!--                    <option value="IN_QUEUE">IN_QUEUE</option>-->
-<!--                    <option value="PREPARING">PREPARING</option>-->
-<!--                    <option value="AWAITING_DELIVERY">AWAITING_DELIVERY</option>-->
-<!--                    <option value="DELIVERED">DELIVERED</option>-->
-<!--                </select>-->
-<!--                <button onclick="changeStatus(${order.id}, '${order.status}')">Change Status</button>-->
-<!--                <button onclick="deleteOrder(${order.id})">Delete</button><br><br>-->
-<!--            `;-->
-
-<!--                orderList.appendChild(listItem);-->
-<!--            });-->
-
-
             const socket = new SockJS('/restaurant');
             const stompClient = Stomp.over(socket);
 

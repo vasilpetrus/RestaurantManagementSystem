@@ -49,19 +49,19 @@ public class MenuController {
      * @return The view name "order_confirmation" for displaying the order confirmation page.
      */
     @PostMapping("/order")
-    public String placeOrder(@RequestParam String selectedItems,
-                             @RequestParam String customerName,
+    public String placeOrder(@RequestParam String customerName,
                              @RequestParam String customerPhoneNumber,
                              @RequestParam String deliveryAddress,
+                             @RequestParam String selectedItems,
                              @RequestParam String observation,
                              @RequestParam Integer totalAmount) {
         List<String> selectedItemCodes = Arrays.asList(selectedItems.split(","));
         List<Item> selectedItemsList = itemService.getItemsByCodes(selectedItemCodes);
         customerOrderService.createNewOrder(
-                selectedItemsList,
                 customerName,
                 customerPhoneNumber,
                 deliveryAddress,
+                selectedItemsList,
                 observation,
                 totalAmount
         );

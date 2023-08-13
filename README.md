@@ -19,6 +19,13 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites - Required software
 * Java 17
 * PostgreSQL
+* Spring Boot
+* Spring Data JPA
+* Spring Security
+* Spring Web
+* Spring Thymeleaf
+* Spring WebSocket
+* Swagger
 
 ### Installing
 

@@ -37,10 +37,10 @@ public class OrderWebSocketController {
         log.info("Requesting new order: {}", orderForm);
 
         return orderService.createNewOrder(
-                orderForm.getItems(),
                 orderForm.getCustomerName(),
                 orderForm.getCustomerPhoneNumber(),
                 orderForm.getDeliveryAddress(),
+                orderForm.getItems(),
                 orderForm.getObservation(),
                 orderForm.getTotalAmount()
         );

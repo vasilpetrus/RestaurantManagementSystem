@@ -88,7 +88,7 @@ class CustomerOrderServiceImplTest {
         ArgumentCaptor<String> topicCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<Object> orderCaptor = ArgumentCaptor.forClass(Object.class);
 
-        CustomerOrder actualOrder = customerOrderService.createNewOrder(items, customerName, customerPhoneNumber, deliveryAddress, observation, totalAmount);
+        CustomerOrder actualOrder = customerOrderService.createNewOrder(customerName, customerPhoneNumber, deliveryAddress, items, observation, totalAmount);
 
         assertNotNull(actualOrder);
 
