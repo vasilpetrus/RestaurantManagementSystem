@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        .login-container {
+            width: 300px;
+            margin: 0 auto;
+            margin-top: 100px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            display: block;
+        }
+        .restaurant-name {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 10px;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <img class="logo" src="https://static.vecteezy.com/system/resources/previews/006/186/601/original/classic-cheeseburger-logo-for-a-fast-food-restaurant-on-black-background-vector.jpg">
+    <h2 class="restaurant-name">HOT BURGER</h2>
+    <h2>Enter to system</h2>
+    <form th:action="@{/login}" method="post">
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+
+        <p th:if="${param.error}" class="error-message">Invalid login or password</p>
+    </form>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+

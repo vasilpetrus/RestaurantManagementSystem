@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+        .logo {
+            width: 150px;
+            height: 150px;
+        }
+        .restaurant-name {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
+        .confirmation-content {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <img class="logo" src="https://static.vecteezy.com/system/resources/previews/006/186/601/original/classic-cheeseburger-logo-for-a-fast-food-restaurant-on-black-background-vector.jpg">
+    <h1 class="restaurant-name">HOT BURGER</h1>
+</div>
+<div class="confirmation-content">
+    <h1>Order Confirmation</h1>
+    <p>Your order has been placed successfully!</p>
+    <p>We are already preparing it. Our manager will get in touch with you.</p>
+    <a th:href="@{/}">Back to Menu</a>
+</div>
+</body>
+</html>

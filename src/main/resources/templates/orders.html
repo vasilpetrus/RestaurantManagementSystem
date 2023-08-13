@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+        .logo {
+            width: 150px;
+            height: 150px;
+        }
+        .restaurant-name {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+        /* Стилі для контенту підтвердження замовлення */
+        .confirmation-content {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .order-list-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #orderList {
+            list-style: none;
+            padding: 0;
+        }
+        #orderList li {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        /* Стилі для кнопок і вибір статусу */
+        select, button {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <img class="logo" src="https://static.vecteezy.com/system/resources/previews/006/186/601/original/classic-cheeseburger-logo-for-a-fast-food-restaurant-on-black-background-vector.jpg">
+    <h1 class="restaurant-name">HOT BURGER</h1>
+    <a href="/login">Logout</a>
+</div>
+<div class="confirmation-content">
+    <!-- ... -->
+</div>
+<div class="order-list-container">
+    <h1>Customer Orders</h1>
+    <ul id="orderList"></ul>
+</div>
+<script>
+    const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadOrders();
+    });
+
+    async function loadOrders() {
+        try {
+            const response = await fetch('/api/v1/order');
+            const orders = await response.json();
+
+            const orderList = document.getElementById('orderList');
+            orderList.innerHTML = '';
+
+            orders.forEach(order => {
+                appendOrderToList(order);
+            });
+
+<!--            orders.forEach(order => {-->
+<!--                const listItem = document.createElement('li');-->
+<!--                listItem.innerHTML = `-->
+<!--                <strong>Order ID:</strong> ${order.id}<br>-->
+<!--                <strong>Customer Name:</strong> ${order.customerName || 'None'}<br>-->
+<!--                <strong>Customer Phone Number:</strong> ${order.customerPhoneNumber || 'None'}<br>-->
+<!--                <strong>Delivery Address:</strong> ${order.deliveryAddress || 'None'}<br>-->
+<!--                <strong>Items:</strong> ${order.items.map(item => item.name).join(', ')}<br>-->
+<!--                <strong>Observation:</strong> ${order.observation || 'None'}<br>-->
+<!--                <strong id="status-${order.id}">Status: ${order.status}</strong><br>-->
+<!--                <label for="statusSelect">Change Status:</label>-->
+<!--                <select id="statusSelect">-->
+<!--                    <option value="PENDING">PENDING</option>-->
+<!--                    <option value="IN_QUEUE">IN_QUEUE</option>-->
+<!--                    <option value="PREPARING">PREPARING</option>-->
+<!--                    <option value="AWAITING_DELIVERY">AWAITING_DELIVERY</option>-->
+<!--                    <option value="DELIVERED">DELIVERED</option>-->
+<!--                </select>-->
+<!--                <button onclick="changeStatus(${order.id}, '${order.status}')">Change Status</button>-->
+<!--                <button onclick="deleteOrder(${order.id})">Delete</button><br><br>-->
+<!--            `;-->
+
+<!--                orderList.appendChild(listItem);-->
+<!--            });-->
+
+
+            const socket = new SockJS('/restaurant');
+            const stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, function (frame) {
+                stompClient.subscribe('/topic/order', function (message) {
+                    const order = JSON.parse(message.body);
+                    appendOrderToList(order);
+                    });
+            });
+        } catch (error) {
+            console.error('Failed to load orders:', error);
+        }
+    }
+
+
+    function appendOrderToList(order) {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+                <strong>Order ID:</strong> ${order.id}<br>
+                <strong>Customer Name:</strong> ${order.customerName || 'None'}<br>
+                <strong>Customer Phone Number:</strong> ${order.customerPhoneNumber || 'None'}<br>
+                <strong>Delivery Address:</strong> ${order.deliveryAddress || 'None'}<br>
+                <strong>Items:</strong> ${order.items.map(item => item.name).join(', ')}<br>
+                <strong>Observation:</strong> ${order.observation || 'None'}<br>
+                <strong id="status-${order.id}">Status: ${order.status}</strong><br>
+                <label for="statusSelect">Change Status:</label>
+                <select id="statusSelect-${order.id}">
+                    <option value="PENDING">PENDING</option>
+                    <option value="IN_QUEUE">IN_QUEUE</option>
+                    <option value="PREPARING">PREPARING</option>
+                    <option value="AWAITING_DELIVERY">AWAITING_DELIVERY</option>
+                    <option value="DELIVERED">DELIVERED</option>
+                </select>
+                <button data-action="change-status" data-order-id="${order.id}" data-current-status="${order.status}">Change Status</button>
+                <button data-action="delete-order" data-order-id="${order.id}">Delete</button><br><br>
+        `;
+
+        const orderList = document.getElementById('orderList');
+        orderList.appendChild(listItem);
+
+        // Додані event listeners для кнопок
+        const changeStatusBtn = listItem.querySelector(`button[data-action="change-status"]`);
+        const deleteOrderBtn = listItem.querySelector(`button[data-action="delete-order"]`);
+
+        changeStatusBtn.addEventListener('click', () => {
+            const orderId = changeStatusBtn.getAttribute('data-order-id');
+            const currentStatus = changeStatusBtn.getAttribute('data-current-status');
+            changeStatus(orderId, currentStatus);
+        });
+
+        deleteOrderBtn.addEventListener('click', () => {
+            const orderId = deleteOrderBtn.getAttribute('data-order-id');
+            deleteOrder(orderId);
+        });
+    }
+    function changeStatus(orderId, currentStatus) {
+
+    const newStatus = document.getElementById(`statusSelect-${orderId}`).value;
+    if (newStatus) {
+        const url = `/api/v1/order/${orderId}?status=${newStatus}`;
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                 [csrfHeader]: csrfToken
+            }
+        }).then(response => {
+            if (response.ok) {
+                console.log(`Order ${orderId} status changed to ${newStatus}`);
+
+                const statusElement = document.querySelector(`#status-${orderId}`);
+                if (statusElement) {
+                    statusElement.textContent = `Status: ${newStatus}`;
+                }
+            } else {
+                console.error('Failed to change status');
+            }
+        });
+    }
+}
+
+    function deleteOrder(orderId) {
+
+        fetch(`/api/v1/order/${orderId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                 [csrfHeader]: csrfToken
+            }
+        }).then(response => {
+            if (response.ok) {
+                console.log(`Order ${orderId} deleted`);
+
+                const orderElement = document.querySelector(`#status-${orderId}`).parentElement;
+                if (orderElement) {
+                    orderElement.remove();
+                }
+            } else {
+                console.error('Failed to delete order');
+            }
+        });
+    }
+</script>
+</body>
+</html>
