@@ -44,7 +44,8 @@ public class OrderRestController {
                 form.getCustomerName(),
                 form.getCustomerPhoneNumber(),
                 form.getDeliveryAddress(),
-                form.getObservation()
+                form.getObservation(),
+                form.getTotalAmount()
         );
     }
 

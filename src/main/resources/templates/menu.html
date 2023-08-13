@@ -126,6 +126,10 @@
         <label for="observation">Additional info:</label>
         <textarea id="observation" name="observation"></textarea>
 
+        <input type="hidden" id="totalAmount" name="totalAmount">
+
+        <div id="totalAmountDisplay"></div>
+
         <button type="submit">Place Order</button>
     </form>
 </div>
@@ -133,21 +137,34 @@
     const selectedItemsInput = document.getElementById('selectedItems');
     const checkboxes = document.querySelectorAll('.menu-item input[type="checkbox"]');
     const orderForm = document.getElementById('orderForm');
+    const totalAmountDisplay = document.getElementById('totalAmountDisplay'); // Отримуємо елемент для відображення
 
     checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', updateSelectedItems);
+        checkbox.addEventListener('change', updateSelectedItemsAndTotalAmount);
     });
 
-    function updateSelectedItems() {
-        const selectedItems = Array.from(checkboxes)
-            .filter(checkbox => checkbox.checked)
-            .map(checkbox => checkbox.value);
+function updateSelectedItemsAndTotalAmount() {
+    const selectedItems = Array.from(checkboxes)
+        .filter(checkbox => checkbox.checked)
+        .map(checkbox => {
+            const itemContainer = checkbox.closest('.menu-item');
+            const priceElement = itemContainer.querySelector('.item-price');
+            return {
+                code: checkbox.value,
+                price: parseFloat(priceElement.textContent.replace('Price: ', '').replace(' ₴', ''))
+            };
+        });
 
-        selectedItemsInput.value = selectedItems.join(',');
-    }
+    selectedItemsInput.value = JSON.stringify(selectedItems);
+    const totalAmount = selectedItems.reduce((total, item) => total + item.price, 0);
+
+    document.getElementById('totalAmount').value = totalAmount;
+
+    totalAmountDisplay.textContent = 'Total Amount: ' + totalAmount.toFixed(2) + ' ₴';
+}
 
     orderForm.addEventListener('submit', function(event) {
-        updateSelectedItems();
+        updateSelectedItemsAndTotalAmount();
     });
 </script>
 </body>

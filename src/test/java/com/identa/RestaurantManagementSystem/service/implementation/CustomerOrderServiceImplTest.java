@@ -79,6 +79,7 @@ class CustomerOrderServiceImplTest {
         String customerPhoneNumber = "1234567890";
         String deliveryAddress = "123 Main St";
         String observation = "Extra sauce";
+        Integer totalAmount = 100;
 
         CustomerOrder expectedOrder = new CustomerOrder();
 
@@ -87,7 +88,7 @@ class CustomerOrderServiceImplTest {
         ArgumentCaptor<String> topicCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<Object> orderCaptor = ArgumentCaptor.forClass(Object.class);
 
-        CustomerOrder actualOrder = customerOrderService.createNewOrder(items, customerName, customerPhoneNumber, deliveryAddress, observation);
+        CustomerOrder actualOrder = customerOrderService.createNewOrder(items, customerName, customerPhoneNumber, deliveryAddress, observation, totalAmount);
 
         assertNotNull(actualOrder);
 

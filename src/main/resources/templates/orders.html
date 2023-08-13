@@ -134,6 +134,7 @@
                 <strong>Delivery Address:</strong> ${order.deliveryAddress || 'None'}<br>
                 <strong>Items:</strong> ${order.items.map(item => item.name).join(', ')}<br>
                 <strong>Observation:</strong> ${order.observation || 'None'}<br>
+                <strong>Total Amount:</strong> ${order.totalAmount.toFixed(2)} ₴<br>
                 <strong id="status-${order.id}">Status: ${order.status}</strong><br>
                 <label for="statusSelect">Change Status:</label>
                 <select id="statusSelect-${order.id}">

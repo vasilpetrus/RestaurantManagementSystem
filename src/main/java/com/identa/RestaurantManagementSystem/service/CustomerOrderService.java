@@ -10,7 +10,7 @@ public interface CustomerOrderService {
 
     List<CustomerOrder> getCustomerOrders();
 
-    CustomerOrder createNewOrder(List<Item> items, String customerName, String customerPhoneNumber, String deliveryAddress, String observation);
+    CustomerOrder createNewOrder(List<Item> items, String customerName, String customerPhoneNumber, String deliveryAddress, String observation, Integer totalAmount);
 
     void updateStatus(Long orderId, String newStatus);
 

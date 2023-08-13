@@ -76,8 +76,8 @@ public class CustomerOrderServiceImpl implements CustomerOrderService {
      * @return The newly created CustomerOrder object.
      */
     @Override
-    public CustomerOrder createNewOrder(List<Item> items, String customerName, String customerPhoneNumber, String deliveryAddress, String observation) {
-        CustomerOrder order = new CustomerOrder(items, customerName, customerPhoneNumber, deliveryAddress, observation);
+    public CustomerOrder createNewOrder(List<Item> items, String customerName, String customerPhoneNumber, String deliveryAddress, String observation, Integer totalAmount) {
+        CustomerOrder order = new CustomerOrder(items, customerName, customerPhoneNumber, deliveryAddress, observation, totalAmount);
 
         order = orderRepository.save(order);
 

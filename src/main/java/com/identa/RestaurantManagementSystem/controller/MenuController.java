@@ -53,7 +53,8 @@ public class MenuController {
                              @RequestParam String customerName,
                              @RequestParam String customerPhoneNumber,
                              @RequestParam String deliveryAddress,
-                             @RequestParam String observation) {
+                             @RequestParam String observation,
+                             @RequestParam Integer totalAmount) {
         List<String> selectedItemCodes = Arrays.asList(selectedItems.split(","));
         List<Item> selectedItemsList = itemService.getItemsByCodes(selectedItemCodes);
         customerOrderService.createNewOrder(
@@ -61,7 +62,8 @@ public class MenuController {
                 customerName,
                 customerPhoneNumber,
                 deliveryAddress,
-                observation
+                observation,
+                totalAmount
         );
 
         return "order_confirmation";

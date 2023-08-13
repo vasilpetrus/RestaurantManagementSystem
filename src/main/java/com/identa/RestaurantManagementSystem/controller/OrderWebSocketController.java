@@ -41,7 +41,8 @@ public class OrderWebSocketController {
                 orderForm.getCustomerName(),
                 orderForm.getCustomerPhoneNumber(),
                 orderForm.getDeliveryAddress(),
-                orderForm.getObservation()
+                orderForm.getObservation(),
+                orderForm.getTotalAmount()
         );
     }
 

@@ -18,15 +18,17 @@ public class OrderForm {
     private String customerPhoneNumber;
     private String deliveryAddress;
     private String observation;
+    private Integer totalAmount;
 
     public OrderForm() {
     }
 
-    public OrderForm(List<Item> items, String customerName, String customerPhoneNumber, String deliveryAddress, String observation) {
+    public OrderForm(List<Item> items, String customerName, String customerPhoneNumber, String deliveryAddress, String observation, Integer totalAmount) {
         this.items = items;
         this.customerName = customerName;
         this.customerPhoneNumber = customerPhoneNumber;
         this.deliveryAddress = deliveryAddress;
         this.observation = observation;
+        this.totalAmount = totalAmount;
     }
 }

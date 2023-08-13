@@ -30,11 +30,15 @@ public class CustomerOrder {
     @Column(nullable = false)
     private OrderStatus status = OrderStatus.PENDING;
 
-    public CustomerOrder(List<Item> items, String customerName, String customerPhoneNumber, String deliveryAddress, String observation) {
+    // Додайте поле для загальної суми замовлення
+    private Integer totalAmount;
+
+    public CustomerOrder(List<Item> items, String customerName, String customerPhoneNumber, String deliveryAddress, String observation, Integer totalAmount) {
         this.items = items;
         this.customerName = customerName;
         this.customerPhoneNumber = customerPhoneNumber;
         this.deliveryAddress = deliveryAddress;
         this.observation = observation;
+        this.totalAmount = totalAmount;
     }
 }
