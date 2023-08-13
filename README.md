@@ -33,3 +33,11 @@ Create a database and set values in environment variables:
 * DATABASE_PASSWORD
 
 Run application and open [Swagger](http://localhost:8080/swagger-ui/index.html#/)
+
+## Web interfaces
+
+The client part of the web application. Restaurant menu and order form:
+* Main website [Restaurant menu](http://localhost:8080/)
+
+Login to the web service for restaurant employees:
+* Enter to the orders system [Orders](http://localhost:8080/login)
